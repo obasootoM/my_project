@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/common/widget/custom_button.dart';
@@ -67,7 +68,21 @@ class _AddProductState extends State<AddProduct> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                GestureDetector(
+                const SizedBox(height: 20,),
+                images.isNotEmpty?    //check if images is not empty
+                CarouselSlider(    //if true return this page
+                    items: images.map((e) {
+                      return Builder(builder: (BuildContext context) =>
+                          Image.file(e,
+                            fit: BoxFit.cover,
+                            height: 200,));
+                    }).toList(),
+                    options: CarouselOptions(
+                        viewportFraction: 1,
+                        height: 200
+
+                    )):
+                GestureDetector(  //else return the gestureDetector
                   onTap: pickImage,
                   child: DottedBorder(
                     borderType: BorderType.RRect,

@@ -17,6 +17,7 @@ class CarousalImages extends StatelessWidget {
         options: CarouselOptions(
           viewportFraction: 1,
           height: 200
+            
         ));
   }
 }
