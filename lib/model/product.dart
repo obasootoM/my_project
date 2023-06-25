@@ -12,7 +12,6 @@ class Product {
   String category;
   List<File> images;
   String? id;
-  String? userId;
 
   Product({
     required this.name,
@@ -21,8 +20,7 @@ class Product {
     required this.quantity,
     required this.category,
     required this.images,
-    this.id,
-    this.userId
+    this.id
 });
 
  Map<String, dynamic> toMap() {
@@ -34,7 +32,6 @@ class Product {
      'category': category,
      'images': images,
      'id': id,
-     'userId': userId
    };
  }
 factory Product.fromMap(Map<String, dynamic>map) {
@@ -46,7 +43,6 @@ factory Product.fromMap(Map<String, dynamic>map) {
        category: map['category'] ?? '',
        images: map['images'] ?? '',
        id: map['_id'] ?? '',
-       userId: map['userId'] ?? ''
    );}
 
   String toJson() => json.encode(toMap());
