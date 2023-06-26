@@ -3,6 +3,7 @@ import 'package:my_project/feautures/admin/screen/posts_screen.dart';
 import '../../../constant/global_variablee.dart';
 
 class AdminScreen extends StatefulWidget {
+  static const String routeName = '/admin-screen';
   const AdminScreen({super.key});
 
   @override

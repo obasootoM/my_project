@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:my_project/common/widget/custom_button.dart';
 import 'package:my_project/common/widget/custom_textfield.dart';
 import 'package:my_project/constant/utilis.dart';
+import 'package:my_project/feautures/admin/services/admin_service.dart';
 
 import '../../../constant/global_variablee.dart';
 
@@ -22,12 +23,25 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _descriptionEditingController = TextEditingController();
   final TextEditingController _priceEditingController = TextEditingController();
   final TextEditingController _quantityEditingController = TextEditingController();
+  final AdminService _adminService = AdminService();
+  final _addFormKey = GlobalKey<FormState>();
   List<File> images = [];
   void pickImage() async{
     var res = await pickFile();
     setState(() {
       images = res;
     });
+  }
+  void sellProduct() {
+    if (_addFormKey.currentState!.validate())
+    _adminService.sellProduct(
+        context: context,
+        name: _productEditingController.text,
+        description: _descriptionEditingController.text,
+        price: double.parse(_priceEditingController.text),
+        quantity: double.parse(_quantityEditingController.text),
+        category: category,
+        images: images);
   }
   @override
   void dispose() {
@@ -64,6 +78,7 @@ class _AddProductState extends State<AddProduct> {
       ),
       body: SingleChildScrollView(
         child: Form(
+          key: _addFormKey,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -133,9 +148,7 @@ class _AddProductState extends State<AddProduct> {
                           },
                         ),),),
                 const SizedBox(height: 10,),
-                CustomButton(hinText: 'Add', onTap: () {
-
-                })
+                CustomButton(hinText: 'Add', onTap: sellProduct)
               ],
             ),
           ),

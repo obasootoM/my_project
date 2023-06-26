@@ -53,11 +53,10 @@ void initState() {
           )
         ),
         onGenerateRoute: (setting) => generateRoute(setting),
-        home:
-        // Provider.of<UserProvider>(context).user.Token.isNotEmpty?
-        //     Provider.of<UserProvider>(context).user.Type == 'user'
-        //         ? const BottomBar()
-               const AdminScreen());
-        //     :const AuthScreen());
+        home: Provider.of<UserProvider>(context).user.Token.isNotEmpty?
+               Provider.of<UserProvider>(context).user.Type == 'user'
+                 ? const BottomBar()
+                 : const AdminScreen()
+           :const AuthScreen());
   }
 }

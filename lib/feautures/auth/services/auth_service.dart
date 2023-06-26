@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:my_project/constant/error_handling.dart';
 import 'package:my_project/constant/global_variablee.dart';
 import 'package:my_project/constant/utilis.dart';
+import 'package:my_project/feautures/admin/screen/admin_screen.dart';
 import 'package:my_project/feautures/auth/widgets/bottom.dart';
 import 'package:my_project/feautures/home/screen/home_screen.dart';
 import 'package:my_project/model/user.dart';
@@ -16,13 +20,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AuthService {
+
+  // ignore: non_constant_identifier_names
   void SignInUser({
     required BuildContext context,
     required String email,
     required String password,
-}) async {
-    try{
 
+}) async {
+
+    try{
           http.Response res = await http.post(
           Uri.parse('$uri/api/signIn'),
           body: jsonEncode({
@@ -33,21 +40,29 @@ class AuthService {
             'content-type':'application/json; charset=UTF-8'
           }
       );
-            print(res.body);
+
+
+            // ignore: use_build_context_synchronously
             HttpResponseService(
             response: res,
             context: context,
             onSuccess: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            Provider.of<UserProvider>(context,listen: false).SetUser(res.body);
-            await pref.setString("x-auth-token", jsonDecode(res.body)['token']);
-            Navigator.pushNamedAndRemoveUntil(context, BottomBar.routeName, (route) => false);
-            },
-          );
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              Provider.of<UserProvider>(context).SetUser(res.body);
+              await pref.setString("x-auth-token", jsonDecode(res.body)['token']);
+              if (Provider.of<UserProvider>(context).user.Type == 'user') {
+                Navigator.pushNamedAndRemoveUntil(context, BottomBar.routeName, (route) => false);
+              }
+              else {
+                Navigator.pushNamedAndRemoveUntil(context, AdminScreen.routeName, (route) => false);
+              }
+            }
+              );
     }catch(e) {
        showSnackBar(context, e.toString());
     }
   }
+  // ignore: non_constant_identifier_names
   void SignUpUser({
     required BuildContext context,
     required String name,

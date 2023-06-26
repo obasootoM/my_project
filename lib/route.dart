@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/feautures/admin/screen/admin_screen.dart';
 import 'package:my_project/feautures/auth/screens/auth_screen.dart';
 import 'package:my_project/feautures/home/screen/home_screen.dart';
 
@@ -12,6 +13,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => const AuthScreen());
+      case AdminScreen.routeName:
+        return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const AdminScreen());
       case AddProduct.routeName:
         return MaterialPageRoute(
             settings: routeSettings,
