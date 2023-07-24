@@ -9,7 +9,6 @@ import 'package:my_project/constant/global_variablee.dart';
 import 'package:my_project/constant/utilis.dart';
 import 'package:my_project/feautures/admin/screen/admin_screen.dart';
 import 'package:my_project/feautures/auth/widgets/bottom.dart';
-import 'package:my_project/feautures/home/screen/home_screen.dart';
 import 'package:my_project/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_project/provider/user_provvider.dart';
@@ -42,15 +41,15 @@ class AuthService {
       );
 
 
-            // ignore: use_build_context_synchronously
+            
             HttpResponseService(
             response: res,
             context: context,
             onSuccess: () async {
               SharedPreferences pref = await SharedPreferences.getInstance();
-              Provider.of<UserProvider>(context).SetUser(res.body);
+              Provider.of<UserProvider>(context, listen: false).SetUser(res.body);
               await pref.setString("x-auth-token", jsonDecode(res.body)['token']);
-              if (Provider.of<UserProvider>(context).user.Type == 'user') {
+              if (Provider.of<UserProvider>(context, listen: false).user.Type == 'user') {
                 Navigator.pushNamedAndRemoveUntil(context, BottomBar.routeName, (route) => false);
               }
               else {
@@ -111,7 +110,7 @@ class AuthService {
       }
 
      var res = await http.post(
-       Uri.parse("$uri/tokenIsVerified"),
+       Uri.parse("$uri/"),
        headers: <String, String>{
          'Content-Type': 'application/json; charset=UTF-8',
          'x-auth-token': token!
