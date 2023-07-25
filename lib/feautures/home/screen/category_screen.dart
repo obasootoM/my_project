@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/constant/global_variablee.dart';
 import 'package:my_project/constant/loading.dart';
+import 'package:my_project/feautures/home/screen/product_datail_screen.dart';
 import 'package:my_project/feautures/home/services/home_service.dart';
 import 'package:my_project/model/product.dart';
 
@@ -83,15 +84,15 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                     ),
                     itemBuilder: (context, index) {
                       final product = productList![index];
-                      // return GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.pushNamed(
-                      //       context,
-                      //       ProductDetailScreen.routeName,
-                      //       arguments: product,
-                      //     );
-                      //   },
-                      return Column(
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductDetailScreen.routeName,
+                            arguments: product,
+                          );
+                        },
+                     child: Column(
                         children: [
                           SizedBox(
                             height: 130,
@@ -113,7 +114,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                           Container(
                             alignment: Alignment.topLeft,
                             padding: const EdgeInsets.only(
-                              left: 0,
+                              left: 5,
                               top: 5,
                               right: 15,
                             ),
@@ -124,7 +125,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                             ),
                           ),
                         ],
-                        // ),
+                         ),
                       );
                     },
                   ),

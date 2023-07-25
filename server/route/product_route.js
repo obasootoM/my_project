@@ -14,4 +14,17 @@ productroute.get("/api/get-product",auth, async (req, res) => {
     }
 })
 
+
+productroute.get("/api/product/search/:name", auth, async (req, res) => {
+
+  try{
+    let product = await Product.find({
+       name: {$regex: req.params.name, $options: "i"}
+    });
+    res.json(product);
+  }catch(e) {
+    res.status(500).json({error: e.message});
+  }
+})
+
 module.exports = productroute;

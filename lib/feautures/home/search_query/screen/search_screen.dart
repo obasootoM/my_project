@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:my_project/feautures/home/search_query/screen/search_screen.dart';
+import 'package:my_project/constant/global_variablee.dart';
+import 'package:my_project/constant/loading.dart';
+import 'package:my_project/feautures/home/search_query/service/search_service.dart';
+import 'package:my_project/feautures/home/search_query/widget/search-product.dart';
 import 'package:my_project/feautures/home/widget/additional_box.dart';
-import 'package:my_project/feautures/home/widget/carousal_image.dart';
-import 'package:my_project/feautures/home/widget/deal_of_day.dart';
-import 'package:my_project/feautures/home/widget/product_cart.dart';
+import 'package:my_project/model/product.dart';
 
-import '../../../constant/global_variablee.dart';
+class SearchScreen extends StatefulWidget {
+  static const String routeName = '/search-screen';
+  final String search;
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = "/home";
-  const HomeScreen({super.key});
+  const SearchScreen({super.key, required this.search});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  
-  void navigateToSearchscreen(String query) {
+class _SearchScreenState extends State<SearchScreen> {
+  final SearchService searchService = SearchService();
+  List<Product>? product;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSearchProduct();
+  }
+
+  void fetchSearchProduct() async {
+    product = await searchService.fetchProductService(
+        context: context, search: widget.search);
+    setState(() {});
+  }
+   void navigateToSearchscreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           flexibleSpace: Container(
@@ -90,25 +104,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            AdditionalBox(),
-            SizedBox(
-              height: 10,
-            ),
-            ProductCart(),
-            SizedBox(
-              height: 10,
-            ),
-            CarousalImages(),
-            SizedBox(
-              height: 10,
-            ),
-            Deal()
-          ],
+        body: product == null ? const Loading() 
+        :Column(
+      children: [
+        const AdditionalBox(),
+        const SizedBox(
+          height: 20,
         ),
-      ),
-    );
+        Expanded(
+            child: ListView.builder(
+                itemCount: product!.length,
+                itemBuilder: (context, index) {
+                  return SearchProduct(product: product![index]);
+                }))
+      ],
+    ));
   }
 }

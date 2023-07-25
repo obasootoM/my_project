@@ -3,6 +3,8 @@ import 'package:my_project/feautures/admin/screen/admin_screen.dart';
 import 'package:my_project/feautures/auth/screens/auth_screen.dart';
 import 'package:my_project/feautures/home/screen/category_screen.dart';
 import 'package:my_project/feautures/home/screen/home_screen.dart';
+import 'package:my_project/feautures/home/screen/product_datail_screen.dart';
+import 'package:my_project/feautures/home/search_query/screen/search_screen.dart';
 
 import 'feautures/admin/screen/add_product.dart';
 import 'feautures/auth/widgets/bottom.dart';
@@ -29,6 +31,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
           settings: routeSettings,
           builder: (_) => CategoryDealsScreen(category: category));
+    case ProductDetailScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const ProductDetailScreen());
+    case SearchScreen.routeName:
+      var search = routeSettings.arguments as String;
+      return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => SearchScreen(search: search));
     default:
       return MaterialPageRoute(
           settings: routeSettings,
